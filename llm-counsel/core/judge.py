@@ -194,30 +194,8 @@ Reply with ONLY the number (1, 2, 3, etc.) of the best response."""
             text, model, conf = self._confidence_weighted(responses, latencies)
             reasoning = "Weighted by quality and latency"
         elif strategy == AggregationStrategy.JUDGE_MODEL:
-            import asyncio
-
-            try:
-                loop = asyncio.get_event_loop()
-                if loop.is_running():
-                    import concurrent.futures
-
-                    with concurrent.futures.ThreadPoolExecutor() as pool:
-                        future = pool.submit(
-                            asyncio.run, self._judge_model_select(responses, question)
-                        )
-                        text, model, conf, judge_succeeded = future.result()
-                else:
-                    text, model, conf, judge_succeeded = loop.run_until_complete(
-                        self._judge_model_select(responses, question)
-                    )
-            except RuntimeError:
-                text, model, conf, judge_succeeded = asyncio.run(
-                    self._judge_model_select(responses, question)
-                )
-            if judge_succeeded:
-                reasoning = f"Selected by {self._judge_model} as best response"
-            else:
-                reasoning = f"Fallback to best_of_n ({self._judge_model} unavailable/inconclusive)"
+            text, model, conf = self._best_of_n(responses)
+            reasoning = "Fallback to best_of_n (JUDGE_MODEL requires judge_async)"
         else:
             text, model, conf = self._best_of_n(responses)
             reasoning = "Selected highest quality response"

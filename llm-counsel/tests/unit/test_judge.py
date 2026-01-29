@@ -298,3 +298,20 @@ class TestJudge:
             )
 
             assert "Fallback" in result.reasoning
+
+    def test_sync_judge_model_falls_back_to_best_of_n(self, mock_encoder):
+        judge = Judge()
+        responses = [
+            make_response("model-a", "Short"),
+            make_response(
+                "model-b", "This is a longer and better structured response with detail"
+            ),
+        ]
+        panel_result = make_panel_result(responses)
+        result = judge.judge(
+            panel_result, AggregationStrategy.JUDGE_MODEL, question="Test?"
+        )
+
+        assert result.strategy == "judge_model"
+        assert "Fallback" in result.reasoning
+        assert "judge_async" in result.reasoning
