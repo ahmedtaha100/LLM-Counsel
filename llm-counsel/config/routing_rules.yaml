@@ -1,0 +1,64 @@
+complexity_thresholds:
+  simple: 3
+  moderate: 6
+  complex: 10
+
+routing:
+  simple:
+    primary: gpt-4o-mini
+    fallback: mixtral-8x7b
+
+  moderate:
+    primary: claude-haiku
+    fallback: gpt-4o-mini
+
+  complex:
+    primary: gpt-4o
+    fallback: claude-sonnet
+
+capability_routing:
+  code:
+    preferred:
+      - claude-sonnet
+      - gpt-4o
+    budget:
+      - claude-haiku
+
+  reasoning:
+    preferred:
+      - gpt-4o
+      - claude-sonnet
+    budget:
+      - gpt-4o-mini
+
+  creative:
+    preferred:
+      - claude-sonnet
+      - gpt-4o
+    budget:
+      - gpt-4o-mini
+
+  analysis:
+    preferred:
+      - gpt-4o
+      - claude-sonnet
+    budget:
+      - claude-haiku
+
+panel_triggers:
+  confidence_threshold: 0.7
+  high_stakes_keywords:
+    - medical
+    - legal
+    - financial
+    - safety
+    - critical
+
+cache:
+  similarity_threshold: 0.92
+  ttl_seconds: 3600
+  max_entries: 10000
+
+dissent:
+  similarity_threshold: 0.7
+  min_models_for_consensus: 2
