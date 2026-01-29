@@ -1,0 +1,85 @@
+models:
+  gpt-4o:
+    provider: openai
+    model_id: gpt-4o
+    cost_per_1k_input: 0.005
+    cost_per_1k_output: 0.015
+    max_tokens: 128000
+    capabilities:
+      - reasoning
+      - code
+      - creative
+      - analysis
+
+  gpt-4o-mini:
+    provider: openai
+    model_id: gpt-4o-mini
+    cost_per_1k_input: 0.00015
+    cost_per_1k_output: 0.0006
+    max_tokens: 128000
+    capabilities:
+      - reasoning
+      - code
+      - creative
+
+  claude-sonnet:
+    provider: anthropic
+    model_id: claude-sonnet-4-20250514
+    cost_per_1k_input: 0.003
+    cost_per_1k_output: 0.015
+    max_tokens: 200000
+    capabilities:
+      - reasoning
+      - code
+      - creative
+      - analysis
+
+  claude-haiku:
+    provider: anthropic
+    model_id: claude-3-5-haiku-20241022
+    cost_per_1k_input: 0.0008
+    cost_per_1k_output: 0.004
+    max_tokens: 200000
+    capabilities:
+      - reasoning
+      - code
+
+  llama-3-70b:
+    provider: together
+    model_id: meta-llama/Llama-3-70b-chat-hf
+    cost_per_1k_input: 0.0009
+    cost_per_1k_output: 0.0009
+    max_tokens: 8192
+    capabilities:
+      - reasoning
+      - code
+
+  mixtral-8x7b:
+    provider: together
+    model_id: mistralai/Mixtral-8x7B-Instruct-v0.1
+    cost_per_1k_input: 0.0006
+    cost_per_1k_output: 0.0006
+    max_tokens: 32768
+    capabilities:
+      - reasoning
+      - code
+
+defaults:
+  temperature: 0.7
+  max_output_tokens: 4096
+  timeout_seconds: 60
+
+panels:
+  high_stakes:
+    - gpt-4o
+    - claude-sonnet
+    - llama-3-70b
+
+  balanced:
+    - gpt-4o-mini
+    - claude-haiku
+    - mixtral-8x7b
+
+  budget:
+    - gpt-4o-mini
+    - mixtral-8x7b
